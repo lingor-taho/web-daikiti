@@ -1065,6 +1065,214 @@ body:has(.admin-shell) > .site-footer {
   margin-top: 18px;
 }
 
+.admin-form {
+  display: grid;
+  gap: 18px;
+}
+
+.admin-form__section {
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+  border: 1px solid #dfe3ea;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 44px rgba(17, 24, 39, 0.06);
+}
+
+.admin-form__section h2 {
+  margin: 0;
+  color: var(--color-primary);
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.admin-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.admin-field {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  color: var(--color-primary);
+  font-size: 0.88rem;
+  font-weight: 900;
+}
+
+.admin-field small {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.admin-input,
+.admin-textarea {
+  width: 100%;
+  border: 1px solid #cfd6e1;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 700;
+  outline: 0;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.admin-input {
+  min-height: 44px;
+  padding: 10px 12px;
+}
+
+.admin-textarea {
+  min-height: 120px;
+  padding: 12px;
+  line-height: 1.7;
+  resize: vertical;
+}
+
+.admin-textarea--code {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.admin-input:focus,
+.admin-textarea:focus,
+.admin-rich-editor:focus-within {
+  border-color: var(--color-action);
+  box-shadow: 0 0 0 4px rgba(185, 28, 28, 0.12);
+}
+
+.admin-checkbox,
+.admin-checkbox-list {
+  display: flex;
+  align-items: center;
+}
+
+.admin-checkbox {
+  gap: 9px;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.admin-checkbox input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--color-action);
+}
+
+.admin-fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.admin-fieldset legend {
+  margin-bottom: 10px;
+  color: var(--color-primary);
+  font-size: 0.88rem;
+  font-weight: 900;
+}
+
+.admin-checkbox-list {
+  flex-wrap: wrap;
+  gap: 12px 18px;
+}
+
+.admin-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.admin-button--secondary {
+  border-color: #cfd6e1;
+  background: #fff;
+  color: var(--color-primary);
+}
+
+.admin-button--secondary:hover {
+  border-color: var(--color-primary);
+}
+
+.admin-rich-editor {
+  overflow: hidden;
+  border: 1px solid #cfd6e1;
+  border-radius: 8px;
+  background: #fff;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.admin-rich-editor__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px;
+  border-bottom: 1px solid #e6ebf2;
+  background: #f8fafc;
+}
+
+.admin-rich-editor__toolbar button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  min-height: 34px;
+  padding: 7px 10px;
+  border: 1px solid #cfd6e1;
+  border-radius: 7px;
+  background: #fff;
+  color: var(--color-primary);
+  font-size: 0.82rem;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.admin-rich-editor__toolbar button:hover,
+.admin-rich-editor__toolbar button.is-active {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.admin-rich-editor__toolbar button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.admin-rich-editor__content .ProseMirror {
+  min-height: 240px;
+  padding: 16px;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.8;
+  outline: 0;
+}
+
+.admin-rich-editor__content .ProseMirror > *:first-child {
+  margin-top: 0;
+}
+
+.admin-rich-editor__content .ProseMirror > *:last-child {
+  margin-bottom: 0;
+}
+
+.admin-rich-editor__content .ProseMirror h2,
+.admin-rich-editor__content .ProseMirror h3 {
+  color: var(--color-primary);
+  line-height: 1.35;
+}
+
 @media (max-width: 920px) {
   .site-header__inner {
     align-items: flex-start;
@@ -1140,6 +1348,10 @@ body:has(.admin-shell) > .site-footer {
   .admin-content {
     width: min(100% - 32px, 1120px);
     padding-top: 28px;
+  }
+
+  .admin-form__grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1248,5 +1460,13 @@ body:has(.admin-shell) > .site-footer {
 
   .admin-button {
     width: 100%;
+  }
+
+  .admin-form__section {
+    padding: 18px;
+  }
+
+  .admin-form__actions {
+    flex-direction: column-reverse;
   }
 }
