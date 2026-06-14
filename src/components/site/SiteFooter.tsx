@@ -6,6 +6,7 @@ const footerLinks = [
   { href: "/company", label: "会社情報" },
   { href: "/access", label: "アクセス" },
   { href: "/contact", label: "お問い合わせ" },
+  { href: "/privacy", label: "プライバシーポリシー" },
 ];
 
 export function SiteFooter() {
