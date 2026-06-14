@@ -1,6 +1,7 @@
 import { BrandFilter } from "@/components/site/BrandFilter";
+import { CategoryFilter } from "@/components/site/CategoryFilter";
 import { CustomCaseCard } from "@/components/site/CustomCaseCard";
-import { getActiveBrands, getPublishedCustomCases } from "@/lib/queries/customCases";
+import { getActiveBrands, getActiveCategories, getPublishedCustomCases } from "@/lib/queries/customCases";
 
 export const dynamic = "force-dynamic";
 
@@ -15,8 +16,9 @@ export default async function CustomWorksPage({ searchParams }: CustomWorksPageP
   const params = await searchParams;
   const currentBrand = params?.brand;
   const currentCategory = params?.category;
-  const [brands, cases] = await Promise.all([
+  const [brands, categories, cases] = await Promise.all([
     getActiveBrands(),
+    getActiveCategories(),
     getPublishedCustomCases({
       brand: currentBrand,
       category: currentCategory,
@@ -37,7 +39,20 @@ export default async function CustomWorksPage({ searchParams }: CustomWorksPageP
         <div className="container">
           <div className="custom-works-list__top">
             <h2 id="custom-works-list-heading">Works</h2>
-            <BrandFilter brands={brands} currentBrand={currentBrand} />
+            <div className="custom-works-filters">
+              <div className="custom-works-filters__group">
+                <span className="custom-works-filters__label">Brand</span>
+                <BrandFilter brands={brands} currentBrand={currentBrand} currentCategory={currentCategory} />
+              </div>
+              <div className="custom-works-filters__group">
+                <span className="custom-works-filters__label">Category</span>
+                <CategoryFilter
+                  categories={categories}
+                  currentBrand={currentBrand}
+                  currentCategory={currentCategory}
+                />
+              </div>
+            </div>
           </div>
 
           {cases.length > 0 ? (

@@ -40,6 +40,15 @@ export async function getActiveBrands() {
   });
 }
 
+export async function getActiveCategories() {
+  return db.customCategory.findMany({
+    where: {
+      isActive: true,
+    },
+    orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
+  });
+}
+
 export async function getPublishedCustomCases(filters: { brand?: string; category?: string } = {}) {
   const where: Prisma.CustomCaseWhereInput = {
     status: PublishStatus.PUBLISHED,
