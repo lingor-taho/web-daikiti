@@ -57,7 +57,11 @@ export default async function AdminCustomCasesPage() {
               </td>
               <td>{dateFormatter.format(customCase.updatedAt)}</td>
               <td>
-                <Link className="admin-text-link" href={`/admin/custom-cases/${customCase.id}/edit`}>
+                <Link
+                  aria-label={`${customCase.title}を編集`}
+                  className="admin-text-link"
+                  href={`/admin/custom-cases/${customCase.id}/edit`}
+                >
                   編集
                 </Link>
               </td>
