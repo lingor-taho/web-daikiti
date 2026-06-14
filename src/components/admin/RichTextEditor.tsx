@@ -4,7 +4,7 @@ import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type RichTextEditorProps = {
   initialValue?: string;
@@ -14,6 +14,9 @@ type RichTextEditorProps = {
 
 export function RichTextEditor({ initialValue = "", labelledBy, name }: RichTextEditorProps) {
   const [html, setHtml] = useState(initialValue);
+  const [imageUploadStatus, setImageUploadStatus] = useState("");
+  const [imageUploadError, setImageUploadError] = useState("");
+  const imageInputRef = useRef<HTMLInputElement>(null);
   const editorAttributes: Record<string, string> = labelledBy
     ? { "aria-labelledby": labelledBy }
     : { "aria-label": "Rich text body" };
@@ -59,7 +62,7 @@ export function RichTextEditor({ initialValue = "", labelledBy, name }: RichText
     editor.chain().focus().extendMarkRange("link").setLink({ href: href.trim() }).run();
   }
 
-  function addImage() {
+  function addImageByUrl() {
     if (!editor) {
       return;
     }
@@ -68,6 +71,42 @@ export function RichTextEditor({ initialValue = "", labelledBy, name }: RichText
 
     if (src?.trim()) {
       editor.chain().focus().setImage({ src: src.trim() }).run();
+    }
+  }
+
+  async function uploadImage(file: File) {
+    if (!editor) {
+      return;
+    }
+
+    setImageUploadError("");
+    setImageUploadStatus("Uploading image...");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("/admin/uploads", {
+        method: "POST",
+        body: formData,
+      });
+      const result = (await response.json().catch(() => null)) as
+        | { error?: string; ok?: boolean; url?: string }
+        | null;
+
+      if (!response.ok || !result?.ok || !result.url) {
+        throw new Error(result?.error ?? "Upload failed.");
+      }
+
+      editor.chain().focus().setImage({ src: result.url }).run();
+      setImageUploadStatus("Image inserted.");
+
+      if (imageInputRef.current) {
+        imageInputRef.current.value = "";
+      }
+    } catch (uploadError) {
+      setImageUploadStatus("");
+      setImageUploadError(uploadError instanceof Error ? uploadError.message : "Upload failed.");
     }
   }
 
@@ -132,9 +171,35 @@ export function RichTextEditor({ initialValue = "", labelledBy, name }: RichText
           >
             Link
           </button>
-          <button disabled={!editor} onClick={addImage} type="button">
-            Image
+          <button
+            disabled={!editor || imageUploadStatus === "Uploading image..."}
+            onClick={() => imageInputRef.current?.click()}
+            type="button"
+          >
+            Upload image
           </button>
+          <button disabled={!editor} onClick={addImageByUrl} type="button">
+            Image URL
+          </button>
+          <input
+            ref={imageInputRef}
+            accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
+            className="sr-only"
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+
+              if (file) {
+                void uploadImage(file);
+              }
+            }}
+            type="file"
+          />
+          <span
+            className={`admin-rich-editor__status${imageUploadError ? " is-error" : ""}`}
+            aria-live="polite"
+          >
+            {imageUploadStatus || imageUploadError}
+          </span>
         </div>
         <EditorContent className="admin-rich-editor__content" editor={editor} />
       </div>

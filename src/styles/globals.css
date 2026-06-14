@@ -1553,6 +1553,59 @@ body:has(.admin-shell) > .site-footer {
   box-shadow: 0 0 0 4px rgba(185, 28, 28, 0.12);
 }
 
+.admin-upload-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.admin-upload-controls__file {
+  min-width: 0;
+  flex: 1;
+  color: var(--color-text);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.admin-upload-controls .admin-button {
+  width: auto;
+}
+
+.admin-image-preview {
+  overflow: hidden;
+  width: min(100%, 220px);
+  aspect-ratio: 4 / 3;
+  border: 1px solid #dfe3ea;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.admin-image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-upload-feedback {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 18px;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.admin-upload-feedback .is-success {
+  color: #166534;
+}
+
+.admin-upload-feedback .is-error {
+  color: #991b1b;
+}
+
 .admin-checkbox,
 .admin-checkbox-list {
   display: flex;
@@ -1775,6 +1828,20 @@ body:has(.admin-shell) > .site-footer {
 .admin-rich-editor__toolbar button:disabled {
   cursor: not-allowed;
   opacity: 0.45;
+}
+
+.admin-rich-editor__status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  color: #166534;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.admin-rich-editor__status.is-error {
+  color: #991b1b;
 }
 
 .admin-rich-editor__content .ProseMirror {
@@ -2005,6 +2072,15 @@ body:has(.admin-shell) > .site-footer {
   }
 
   .admin-button {
+    width: 100%;
+  }
+
+  .admin-upload-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-upload-controls .admin-button {
     width: 100%;
   }
 

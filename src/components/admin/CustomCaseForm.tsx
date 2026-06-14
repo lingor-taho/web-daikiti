@@ -104,7 +104,7 @@ export function CustomCaseForm({
         <div className="admin-form__grid">
           <ImageUploadField
             defaultValue={values.coverImage}
-            helpText="Upload support comes later; use an image URL or public path for now."
+            helpText="Upload an image or paste a public path/URL."
             label="Cover image URL"
             name="coverImage"
             required
