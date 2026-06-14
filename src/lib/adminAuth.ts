@@ -3,7 +3,7 @@ type AdminAuthEnv = {
   ADMIN_PASSWORD?: string;
 };
 
-const BASIC_AUTH_PREFIX = "Basic ";
+const BASIC_AUTH_SCHEME = "basic";
 
 export function isValidAdminAuth(
   authorization: string | null,
@@ -19,12 +19,13 @@ export function isValidAdminAuth(
     return false;
   }
 
-  if (!authorization?.startsWith(BASIC_AUTH_PREFIX)) {
+  const [scheme, encoded] = authorization?.split(/\s+/, 2) ?? [];
+
+  if (scheme?.toLowerCase() !== BASIC_AUTH_SCHEME || !encoded) {
     return false;
   }
 
   try {
-    const encoded = authorization.slice(BASIC_AUTH_PREFIX.length).trim();
     const decoded = atob(encoded);
     const separatorIndex = decoded.indexOf(":");
 
