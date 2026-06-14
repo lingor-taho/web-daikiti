@@ -6,31 +6,43 @@ import {
   validateImageUploadFile,
 } from "../src/lib/uploads";
 
-test("validateImageUploadFile accepts common web image types within the size limit", () => {
-  const file = new File(["demo"], "demo.png", { type: "image/png" });
+const validPngBytes = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
-  assert.deepEqual(validateImageUploadFile(file), { ok: true });
+test("validateImageUploadFile accepts a PNG with a valid byte signature", async () => {
+  const file = new File([validPngBytes], "demo.png", { type: "image/png" });
+
+  assert.deepEqual(await validateImageUploadFile(file), { ok: true });
 });
 
-test("validateImageUploadFile rejects non-image files", () => {
+test("validateImageUploadFile rejects non-image files", async () => {
   const file = new File(["demo"], "demo.txt", { type: "text/plain" });
 
-  assert.deepEqual(validateImageUploadFile(file), {
+  assert.deepEqual(await validateImageUploadFile(file), {
     ok: false,
     error: "Unsupported file type. Upload a JPEG, PNG, WebP, GIF, or SVG image.",
     status: 400,
   });
 });
 
-test("validateImageUploadFile rejects oversized files", () => {
+test("validateImageUploadFile rejects oversized files", async () => {
   const file = new File([new Uint8Array(MAX_UPLOAD_BYTES + 1)], "large.jpg", {
     type: "image/jpeg",
   });
 
-  assert.deepEqual(validateImageUploadFile(file), {
+  assert.deepEqual(await validateImageUploadFile(file), {
     ok: false,
     error: "Image is too large. Maximum upload size is 5MB.",
     status: 413,
+  });
+});
+
+test("validateImageUploadFile rejects text content spoofed as PNG", async () => {
+  const file = new File(["not really an image"], "spoof.png", { type: "image/png" });
+
+  assert.deepEqual(await validateImageUploadFile(file), {
+    ok: false,
+    error: "File content does not match the declared image type.",
+    status: 400,
   });
 });
 
