@@ -2,7 +2,7 @@ import { Prisma, PublishStatus } from "@prisma/client";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 
-const customCaseInclude = {
+export const customCaseInclude = {
   brand: true,
   categories: {
     include: {
@@ -91,4 +91,11 @@ export async function getCustomCaseBySlug(slug: string) {
   }
 
   return customCase;
+}
+
+export async function getCustomCaseById(id: number) {
+  return db.customCase.findUnique({
+    where: { id },
+    include: customCaseInclude,
+  });
 }

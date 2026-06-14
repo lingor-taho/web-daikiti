@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { BeforeAfter } from "@/components/site/BeforeAfter";
 import { CaseSpec } from "@/components/site/CaseSpec";
 import { RichContent } from "@/components/site/RichContent";
-import { db } from "@/lib/db";
+import { getCustomCaseById } from "@/lib/queries/customCases";
 
 export const dynamic = "force-dynamic";
 
@@ -13,21 +13,6 @@ type PreviewCustomCasePageProps = {
   }>;
 };
 
-async function getPreviewCustomCase(id: number) {
-  return db.customCase.findUnique({
-    where: { id },
-    include: {
-      brand: true,
-      categories: {
-        include: {
-          category: true,
-        },
-      },
-      tags: true,
-    },
-  });
-}
-
 export default async function PreviewCustomCasePage({ params }: PreviewCustomCasePageProps) {
   const { id: idParam } = await params;
   const id = Number(idParam);
@@ -36,7 +21,7 @@ export default async function PreviewCustomCasePage({ params }: PreviewCustomCas
     notFound();
   }
 
-  const customCase = await getPreviewCustomCase(id);
+  const customCase = await getCustomCaseById(id);
 
   if (!customCase) {
     notFound();

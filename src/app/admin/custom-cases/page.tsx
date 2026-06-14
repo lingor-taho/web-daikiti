@@ -1,6 +1,7 @@
 import { PublishStatus } from "@prisma/client";
 import Link from "next/link";
 import { AdminTable } from "@/components/admin/AdminTable";
+import { CustomCaseRowActions } from "@/components/admin/CustomCaseRowActions";
 import { deleteCustomCase, unpublishCustomCase } from "@/lib/actions/customCases";
 import { db } from "@/lib/db";
 
@@ -64,40 +65,14 @@ export default async function AdminCustomCasesPage() {
                 </td>
                 <td>{dateFormatter.format(customCase.updatedAt)}</td>
                 <td>
-                  <div className="admin-row-actions" aria-label={`${customCase.title}の操作`} role="group">
-                    <Link
-                      aria-label={`${customCase.title}を編集`}
-                      className="admin-button admin-button--secondary admin-button--compact"
-                      href={`/admin/custom-cases/${customCase.id}/edit`}
-                    >
-                      編集
-                    </Link>
-                    <Link
-                      aria-label={`${customCase.title}をプレビュー`}
-                      className="admin-button admin-button--secondary admin-button--compact"
-                      href={previewHref}
-                    >
-                      プレビュー
-                    </Link>
-                    <form action={unpublishCustomCase.bind(null, customCase.id)}>
-                      <button
-                        aria-label={`${customCase.title}を下書きに戻す`}
-                        className="admin-button admin-button--secondary admin-button--compact"
-                        type="submit"
-                      >
-                        下書きに戻す
-                      </button>
-                    </form>
-                    <form action={deleteCustomCase.bind(null, customCase.id)}>
-                      <button
-                        aria-label={`${customCase.title}を完全に削除`}
-                        className="admin-button admin-button--danger admin-button--compact"
-                        type="submit"
-                      >
-                        削除
-                      </button>
-                    </form>
-                  </div>
+                  <CustomCaseRowActions
+                    customCaseId={customCase.id}
+                    deleteAction={deleteCustomCase.bind(null, customCase.id)}
+                    editHref={`/admin/custom-cases/${customCase.id}/edit`}
+                    previewHref={previewHref}
+                    title={customCase.title}
+                    unpublishAction={unpublishCustomCase.bind(null, customCase.id)}
+                  />
                 </td>
               </tr>
             );

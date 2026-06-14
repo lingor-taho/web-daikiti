@@ -1,16 +1,54 @@
 import assert from "node:assert/strict";
 import { after, before, test } from "node:test";
-import { PublishStatus } from "@prisma/client";
-import { deleteCustomCase, unpublishCustomCase } from "../src/lib/actions/customCases";
-import { db } from "../src/lib/db";
+import { execFileSync } from "node:child_process";
+import { existsSync, rmSync } from "node:fs";
+import path from "node:path";
+import type { PrismaClient, PublishStatus as PublishStatusType } from "@prisma/client";
+import type * as CustomCaseActions from "../src/lib/actions/customCases";
 
 const testSlugPrefix = "task-8-action-test";
+const testDbFile = path.join(process.cwd(), "prisma", `${testSlugPrefix}-${process.pid}.db`);
+const testDatabaseUrl = `file:./${path.basename(testDbFile)}`;
+const prismaCli = require.resolve("prisma/build/index.js");
 
+let db: PrismaClient;
+let actions: typeof CustomCaseActions;
+let publishStatus: typeof PublishStatusType;
 let brandId: number;
 let categoryId: number;
 let customCaseId: number;
 
+function assertTestDatabaseUrl(databaseUrl: string | undefined) {
+  assert.ok(databaseUrl, "DATABASE_URL must be set explicitly for this test.");
+  assert.match(databaseUrl, /test/i, "DATABASE_URL must be test-scoped.");
+  assert.doesNotMatch(databaseUrl, /dev\.db/i, "DATABASE_URL must not point at dev.db.");
+}
+
 before(async () => {
+  process.env.NODE_ENV = "test";
+  process.env.DATABASE_URL = testDatabaseUrl;
+  assertTestDatabaseUrl(process.env.DATABASE_URL);
+
+  for (const file of [testDbFile, `${testDbFile}-journal`]) {
+    if (existsSync(file)) {
+      rmSync(file);
+    }
+  }
+
+  execFileSync(process.execPath, [prismaCli, "migrate", "deploy", "--schema", "prisma/schema.prisma"], {
+    cwd: process.cwd(),
+    env: { ...process.env, DATABASE_URL: testDatabaseUrl, RUST_LOG: "info" },
+    stdio: "pipe",
+  });
+
+  const importedDb = await import("../src/lib/db");
+  const importedActions = await import("../src/lib/actions/customCases");
+  const importedClient = await import("@prisma/client");
+
+  db = importedDb.db;
+  actions = importedActions;
+  publishStatus = importedClient.PublishStatus;
+
   await db.customCase.deleteMany({
     where: {
       slug: {
@@ -47,7 +85,7 @@ before(async () => {
       summary: "Case used to verify Task 8 actions.",
       coverImage: "/images/custom-works/camper-van.jpg",
       content: "<p>Test content</p>",
-      status: PublishStatus.PUBLISHED,
+      status: publishStatus.PUBLISHED,
       publishedAt: new Date("2026-01-01T00:00:00.000Z"),
       categories: {
         create: [{ categoryId }],
@@ -61,32 +99,37 @@ before(async () => {
 });
 
 after(async () => {
-  await db.customCase.deleteMany({
-    where: {
-      slug: {
-        startsWith: testSlugPrefix,
-      },
-    },
-  });
-  await db.customCategory.deleteMany({ where: { slug: `${testSlugPrefix}-category` } });
-  await db.brand.deleteMany({ where: { slug: `${testSlugPrefix}-brand` } });
-  await db.$disconnect();
+  if (db) {
+    await db.$disconnect();
+  }
+
+  for (const file of [testDbFile, `${testDbFile}-journal`]) {
+    if (existsSync(file)) {
+      rmSync(file);
+    }
+  }
+});
+
+test("uses an isolated sqlite database instead of dev.db", () => {
+  assertTestDatabaseUrl(process.env.DATABASE_URL);
+  assert.equal(process.env.DATABASE_URL, testDatabaseUrl);
+  assert.ok(existsSync(testDbFile));
 });
 
 test("unpublishCustomCase sets status to draft and clears publishedAt", async () => {
-  await unpublishCustomCase(customCaseId);
+  await actions.unpublishCustomCase(customCaseId);
 
   const customCase = await db.customCase.findUniqueOrThrow({
     where: { id: customCaseId },
     select: { publishedAt: true, status: true },
   });
 
-  assert.equal(customCase.status, PublishStatus.DRAFT);
+  assert.equal(customCase.status, publishStatus.DRAFT);
   assert.equal(customCase.publishedAt, null);
 });
 
 test("deleteCustomCase removes the case and cascading relation rows", async () => {
-  await deleteCustomCase(customCaseId);
+  await actions.deleteCustomCase(customCaseId);
 
   const [customCaseCount, categoryRelationCount, tagCount] = await Promise.all([
     db.customCase.count({ where: { id: customCaseId } }),
