@@ -41,7 +41,11 @@ export default async function AdminBrandsPage() {
               </td>
               <td>
                 <form action={setBrandActive.bind(null, brand.id, !brand.isActive)}>
-                  <button className="admin-button admin-button--secondary admin-button--compact" type="submit">
+                  <button
+                    aria-label={brand.isActive ? `Disable ${brand.name}` : `Enable ${brand.name}`}
+                    className="admin-button admin-button--secondary admin-button--compact"
+                    type="submit"
+                  >
                     {brand.isActive ? "Disable" : "Enable"}
                   </button>
                 </form>

@@ -43,7 +43,11 @@ export default async function AdminCategoriesPage() {
               </td>
               <td>
                 <form action={setCategoryActive.bind(null, category.id, !category.isActive)}>
-                  <button className="admin-button admin-button--secondary admin-button--compact" type="submit">
+                  <button
+                    aria-label={category.isActive ? `Disable ${category.name}` : `Enable ${category.name}`}
+                    className="admin-button admin-button--secondary admin-button--compact"
+                    type="submit"
+                  >
                     {category.isActive ? "Disable" : "Enable"}
                   </button>
                 </form>
