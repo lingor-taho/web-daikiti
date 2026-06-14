@@ -1,7 +1,18 @@
-export default function Home() {
+import { BusinessSummary } from "@/components/site/BusinessSummary";
+import { ContactCta } from "@/components/site/ContactCta";
+import { FeaturedCases } from "@/components/site/FeaturedCases";
+import { HomeHero } from "@/components/site/HomeHero";
+import { getFeaturedCustomCases } from "@/lib/queries/customCases";
+
+export default async function Home() {
+  const cases = await getFeaturedCustomCases();
+
   return (
-    <main className="container">
-      <h1>DKT Motors</h1>
+    <main>
+      <HomeHero />
+      <BusinessSummary />
+      <FeaturedCases cases={cases} />
+      <ContactCta />
     </main>
   );
 }
