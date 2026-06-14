@@ -1,6 +1,7 @@
 import { PublishStatus } from "@prisma/client";
 import Link from "next/link";
 import { AdminTable } from "@/components/admin/AdminTable";
+import { deleteCustomCase, unpublishCustomCase } from "@/lib/actions/customCases";
 import { db } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
@@ -44,29 +45,63 @@ export default async function AdminCustomCasesPage() {
 
       {customCases.length > 0 ? (
         <AdminTable columns={["ブランド", "タイトル", "ステータス", "更新日", "操作"]}>
-          {customCases.map((customCase) => (
-            <tr key={customCase.id}>
-              <td>{customCase.brand.name}</td>
-              <td>
-                <span className="admin-table__title">{customCase.title}</span>
-              </td>
-              <td>
-                <span className={`admin-status admin-status--${customCase.status.toLowerCase()}`}>
-                  {statusLabels[customCase.status]}
-                </span>
-              </td>
-              <td>{dateFormatter.format(customCase.updatedAt)}</td>
-              <td>
-                <Link
-                  aria-label={`${customCase.title}を編集`}
-                  className="admin-text-link"
-                  href={`/admin/custom-cases/${customCase.id}/edit`}
-                >
-                  編集
-                </Link>
-              </td>
-            </tr>
-          ))}
+          {customCases.map((customCase) => {
+            const previewHref =
+              customCase.status === PublishStatus.PUBLISHED
+                ? `/custom-works/${customCase.slug}`
+                : `/admin/custom-cases/${customCase.id}/preview`;
+
+            return (
+              <tr key={customCase.id}>
+                <td>{customCase.brand.name}</td>
+                <td>
+                  <span className="admin-table__title">{customCase.title}</span>
+                </td>
+                <td>
+                  <span className={`admin-status admin-status--${customCase.status.toLowerCase()}`}>
+                    {statusLabels[customCase.status]}
+                  </span>
+                </td>
+                <td>{dateFormatter.format(customCase.updatedAt)}</td>
+                <td>
+                  <div className="admin-row-actions" aria-label={`${customCase.title}の操作`} role="group">
+                    <Link
+                      aria-label={`${customCase.title}を編集`}
+                      className="admin-button admin-button--secondary admin-button--compact"
+                      href={`/admin/custom-cases/${customCase.id}/edit`}
+                    >
+                      編集
+                    </Link>
+                    <Link
+                      aria-label={`${customCase.title}をプレビュー`}
+                      className="admin-button admin-button--secondary admin-button--compact"
+                      href={previewHref}
+                    >
+                      プレビュー
+                    </Link>
+                    <form action={unpublishCustomCase.bind(null, customCase.id)}>
+                      <button
+                        aria-label={`${customCase.title}を下書きに戻す`}
+                        className="admin-button admin-button--secondary admin-button--compact"
+                        type="submit"
+                      >
+                        下書きに戻す
+                      </button>
+                    </form>
+                    <form action={deleteCustomCase.bind(null, customCase.id)}>
+                      <button
+                        aria-label={`${customCase.title}を完全に削除`}
+                        className="admin-button admin-button--danger admin-button--compact"
+                        type="submit"
+                      >
+                        削除
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
         </AdminTable>
       ) : (
         <div className="admin-empty">

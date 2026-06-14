@@ -1203,6 +1203,70 @@ body:has(.admin-shell) > .site-footer {
   border-color: var(--color-primary);
 }
 
+.admin-button--danger {
+  background: var(--color-action);
+  color: #fff;
+}
+
+.admin-button--danger:hover {
+  background: #991b1b;
+}
+
+.admin-button--compact {
+  min-height: 36px;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+}
+
+.admin-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-row-actions form {
+  margin: 0;
+}
+
+.admin-preview-hero {
+  padding: 30px;
+  border: 1px solid #dfe3ea;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 44px rgba(17, 24, 39, 0.06);
+}
+
+.admin-preview-hero__brand {
+  margin: 0 0 10px;
+  color: var(--color-action);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.admin-preview-hero h2 {
+  margin: 0;
+  color: var(--color-primary);
+  font-size: clamp(1.55rem, 3vw, 2.45rem);
+  line-height: 1.15;
+}
+
+.admin-preview-hero p:not(.admin-preview-hero__brand) {
+  max-width: 760px;
+  margin: 16px 0 0;
+  color: var(--color-muted);
+  line-height: 1.8;
+}
+
+.admin-preview-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+  align-items: start;
+  gap: 32px;
+}
+
 .admin-rich-editor {
   overflow: hidden;
   border: 1px solid #cfd6e1;
@@ -1300,7 +1364,8 @@ body:has(.admin-shell) > .site-footer {
   .contact-cta__inner,
   .site-footer__inner,
   .custom-works-list__top,
-  .custom-case-layout {
+  .custom-case-layout,
+  .admin-preview-layout {
     grid-template-columns: 1fr;
   }
 

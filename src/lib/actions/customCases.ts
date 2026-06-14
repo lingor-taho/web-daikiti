@@ -58,6 +58,10 @@ function validationErrorMessage(error: { issues: { path: PropertyKey[]; message:
 }
 
 function revalidateCustomCasePaths(slugs: string[]) {
+  if (process.env.NODE_ENV === "test") {
+    return;
+  }
+
   revalidatePath("/");
   revalidatePath("/custom-works");
   revalidatePath("/admin/custom-cases");
@@ -177,4 +181,54 @@ export async function updateCustomCaseAction(
 
   revalidateCustomCasePaths([previousSlug, parsed.data.data.slug]);
   redirect("/admin/custom-cases");
+}
+
+export async function unpublishCustomCase(id: number): Promise<void> {
+  let slug = "";
+
+  try {
+    const customCase = await db.customCase.update({
+      where: { id },
+      data: {
+        status: PublishStatus.DRAFT,
+        publishedAt: null,
+      },
+      select: {
+        slug: true,
+      },
+    });
+
+    slug = customCase.slug;
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+      throw new Error("Custom case was not found.");
+    }
+
+    throw new Error("Unable to unpublish the custom case.");
+  }
+
+  revalidateCustomCasePaths([slug]);
+}
+
+export async function deleteCustomCase(id: number): Promise<void> {
+  let slug = "";
+
+  try {
+    const customCase = await db.customCase.delete({
+      where: { id },
+      select: {
+        slug: true,
+      },
+    });
+
+    slug = customCase.slug;
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+      throw new Error("Custom case was not found.");
+    }
+
+    throw new Error("Unable to delete the custom case.");
+  }
+
+  revalidateCustomCasePaths([slug]);
 }
