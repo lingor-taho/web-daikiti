@@ -1,6 +1,9 @@
 import { PrismaClient, PublishStatus } from "@prisma/client";
 
+process.env.DATABASE_URL ??= "file:./dev.db";
+
 const prisma = new PrismaClient();
+const samplePublishedAt = new Date("2026-06-14T00:00:00.000Z");
 
 async function main() {
   const brands = [
@@ -53,15 +56,15 @@ async function main() {
       modelName: "Sample Model",
       summary:
         "Exterior and interior updates that sharpen the vehicle's presence while keeping everyday usability intact.",
-      coverImage: "/images/placeholders/custom-case-1.jpg",
-      beforeImage: "/images/placeholders/before.jpg",
-      afterImage: "/images/placeholders/after.jpg",
+      coverImage: "/images/placeholders/custom-case-1.svg",
+      beforeImage: "/images/placeholders/before.svg",
+      afterImage: "/images/placeholders/after.svg",
       content:
         "<h2>Work Details</h2><p>We reviewed the vehicle condition, refreshed the exterior stance, and adjusted interior details for a cleaner custom finish.</p>",
       status: PublishStatus.PUBLISHED,
       isFeatured: true,
       sortOrder: 0,
-      publishedAt: new Date(),
+      publishedAt: samplePublishedAt,
       categories: {
         deleteMany: {},
         create: [
@@ -81,15 +84,15 @@ async function main() {
       modelName: "Sample Model",
       summary:
         "Exterior and interior updates that sharpen the vehicle's presence while keeping everyday usability intact.",
-      coverImage: "/images/placeholders/custom-case-1.jpg",
-      beforeImage: "/images/placeholders/before.jpg",
-      afterImage: "/images/placeholders/after.jpg",
+      coverImage: "/images/placeholders/custom-case-1.svg",
+      beforeImage: "/images/placeholders/before.svg",
+      afterImage: "/images/placeholders/after.svg",
       content:
         "<h2>Work Details</h2><p>We reviewed the vehicle condition, refreshed the exterior stance, and adjusted interior details for a cleaner custom finish.</p>",
       status: PublishStatus.PUBLISHED,
       isFeatured: true,
       sortOrder: 0,
-      publishedAt: new Date(),
+      publishedAt: samplePublishedAt,
       categories: {
         create: [
           { categoryId: beforeAfter.id },

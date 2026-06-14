@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">After placeholder</title>
+  <desc id="desc">A simple after state placeholder for a custom vehicle case.</desc>
+  <rect width="1200" height="800" fill="#111827"/>
+  <path d="M0 548h1200v252H0z" fill="#1f2937"/>
+  <path d="M194 504h128l88-96h382l112 96h112c42 0 76 34 76 76v26H118v-26c0-42 34-76 76-76z" fill="#f6c85f"/>
+  <path d="M456 432h300l78 72H386z" fill="#f8fafc"/>
+  <circle cx="330" cy="610" r="72" fill="#030712"/>
+  <circle cx="330" cy="610" r="34" fill="#e5e7eb"/>
+  <circle cx="886" cy="610" r="72" fill="#030712"/>
+  <circle cx="886" cy="610" r="34" fill="#e5e7eb"/>
+  <text x="600" y="204" fill="#f6c85f" font-family="Arial, sans-serif" font-size="58" font-weight="700" text-anchor="middle">AFTER</text>
+  <text x="600" y="268" fill="#e5e7eb" font-family="Arial, sans-serif" font-size="30" text-anchor="middle">Sample finished custom look</text>
+</svg>

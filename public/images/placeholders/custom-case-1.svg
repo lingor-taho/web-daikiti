@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Custom vehicle placeholder</title>
+  <desc id="desc">A simple placeholder image for a featured custom vehicle case.</desc>
+  <rect width="1200" height="800" fill="#111827"/>
+  <path d="M0 640 1200 430v370H0z" fill="#374151"/>
+  <path d="M210 510h120l82-90h370l108 90h102c39 0 72 33 72 72v26H138v-26c0-39 33-72 72-72z" fill="#f8fafc"/>
+  <path d="M454 442h285l68 68H392z" fill="#9ca3af"/>
+  <circle cx="332" cy="608" r="66" fill="#1f2937"/>
+  <circle cx="332" cy="608" r="30" fill="#f6c85f"/>
+  <circle cx="870" cy="608" r="66" fill="#1f2937"/>
+  <circle cx="870" cy="608" r="30" fill="#f6c85f"/>
+  <text x="600" y="208" fill="#f6c85f" font-family="Arial, sans-serif" font-size="54" font-weight="700" text-anchor="middle">DKT MOTORS</text>
+  <text x="600" y="270" fill="#e5e7eb" font-family="Arial, sans-serif" font-size="32" text-anchor="middle">Custom Works Sample</text>
+</svg>
