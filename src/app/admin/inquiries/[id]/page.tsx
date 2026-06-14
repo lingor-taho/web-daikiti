@@ -52,7 +52,11 @@ export default async function AdminInquiryDetailPage({ params }: AdminInquiryDet
           <p className="admin-page__eyebrow">Inquiry Detail</p>
           <h1>{inquiry.name}</h1>
         </div>
-        <Link className="admin-button admin-button--secondary" href="/admin/inquiries">
+        <Link
+          aria-label={`Back to inquiry list from ${inquiry.name}`}
+          className="admin-button admin-button--secondary"
+          href="/admin/inquiries"
+        >
           Back to list
         </Link>
       </header>
@@ -115,7 +119,11 @@ export default async function AdminInquiryDetailPage({ params }: AdminInquiryDet
             />
           </label>
           <div className="admin-form__actions">
-            <button className="admin-button admin-button--primary" type="submit">
+            <button
+              aria-label={`Save admin memo for inquiry from ${inquiry.name}`}
+              className="admin-button admin-button--primary"
+              type="submit"
+            >
               Save memo
             </button>
           </div>
@@ -124,7 +132,13 @@ export default async function AdminInquiryDetailPage({ params }: AdminInquiryDet
 
       <div className="admin-row-actions">
         <form action={setInquiryRead.bind(null, inquiry.id, inquiry.status !== InquiryStatus.READ)}>
-          <button className="admin-button admin-button--secondary" type="submit">
+          <button
+            aria-label={`Mark inquiry from ${inquiry.name} as ${
+              inquiry.status === InquiryStatus.READ ? "unread" : "read"
+            }`}
+            className="admin-button admin-button--secondary"
+            type="submit"
+          >
             {inquiry.status === InquiryStatus.READ ? "Mark unread" : "Mark read"}
           </button>
         </form>

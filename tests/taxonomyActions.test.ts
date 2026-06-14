@@ -25,8 +25,10 @@ function taxonomyFormData(values: Record<string, string>) {
 }
 
 before(async () => {
-  process.env.NODE_ENV = "test";
-  process.env.DATABASE_URL = testDatabaseUrl;
+  Object.assign(process.env, {
+    DATABASE_URL: testDatabaseUrl,
+    NODE_ENV: "test",
+  });
 
   for (const file of [testDbFile, `${testDbFile}-journal`]) {
     if (existsSync(file)) {

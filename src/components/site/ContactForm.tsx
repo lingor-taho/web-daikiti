@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 
 type ContactField = "name" | "email" | "phone" | "inquiryType" | "message";
 
@@ -29,6 +29,7 @@ const inquiryTypes = [
 ];
 
 export function ContactForm() {
+  const isSubmittingRef = useRef(false);
   const [form, setForm] = useState<ContactFormState>(initialFormState);
   const [fieldErrors, setFieldErrors] = useState<ContactResponse["fieldErrors"]>({});
   const [statusMessage, setStatusMessage] = useState("");
@@ -48,6 +49,12 @@ export function ContactForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (isSubmittingRef.current) {
+      return;
+    }
+
+    isSubmittingRef.current = true;
     setIsSubmitting(true);
     setStatusMessage("");
     setIsSuccess(false);
@@ -75,6 +82,7 @@ export function ContactForm() {
     } catch {
       setStatusMessage("Unable to send your inquiry. Please try again.");
     } finally {
+      isSubmittingRef.current = false;
       setIsSubmitting(false);
     }
   }

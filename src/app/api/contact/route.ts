@@ -30,15 +30,25 @@ export async function POST(request: Request) {
     );
   }
 
-  const inquiry = await db.inquiry.create({
-    data: parsed.data,
-    select: {
-      id: true,
-    },
-  });
+  try {
+    const inquiry = await db.inquiry.create({
+      data: parsed.data,
+      select: {
+        id: true,
+      },
+    });
 
-  return NextResponse.json({
-    ok: true,
-    inquiryId: inquiry.id,
-  });
+    return NextResponse.json({
+      ok: true,
+      inquiryId: inquiry.id,
+    });
+  } catch {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: "Unable to save your inquiry. Please try again.",
+      },
+      { status: 500 },
+    );
+  }
 }

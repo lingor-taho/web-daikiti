@@ -25,8 +25,10 @@ function assertTestDatabaseUrl(databaseUrl: string | undefined) {
 }
 
 before(async () => {
-  process.env.NODE_ENV = "test";
-  process.env.DATABASE_URL = testDatabaseUrl;
+  Object.assign(process.env, {
+    DATABASE_URL: testDatabaseUrl,
+    NODE_ENV: "test",
+  });
   assertTestDatabaseUrl(process.env.DATABASE_URL);
 
   for (const file of [testDbFile, `${testDbFile}-journal`]) {

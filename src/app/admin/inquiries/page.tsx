@@ -54,13 +54,20 @@ export default async function AdminInquiriesPage() {
               <td>
                 <div className="admin-row-actions">
                   <Link
+                    aria-label={`View inquiry from ${inquiry.name}`}
                     className="admin-button admin-button--secondary admin-button--compact"
                     href={`/admin/inquiries/${inquiry.id}`}
                   >
                     Detail
                   </Link>
                   <form action={setInquiryRead.bind(null, inquiry.id, inquiry.status !== InquiryStatus.READ)}>
-                    <button className="admin-button admin-button--secondary admin-button--compact" type="submit">
+                    <button
+                      aria-label={`Mark inquiry from ${inquiry.name} as ${
+                        inquiry.status === InquiryStatus.READ ? "unread" : "read"
+                      }`}
+                      className="admin-button admin-button--secondary admin-button--compact"
+                      type="submit"
+                    >
                       {inquiry.status === InquiryStatus.READ ? "Mark unread" : "Mark read"}
                     </button>
                   </form>
