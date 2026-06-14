@@ -18,8 +18,8 @@ export function FeaturedCases({ cases }: FeaturedCasesProps) {
 
         {cases.length > 0 ? (
           <div className="case-grid">
-            {cases.map((customCase) => (
-              <CustomCaseCard customCase={customCase} key={customCase.id} />
+            {cases.map((customCase, index) => (
+              <CustomCaseCard customCase={customCase} eager={index === 0} key={customCase.id} />
             ))}
           </div>
         ) : (

@@ -24,7 +24,8 @@ export function HomeHero() {
             src="/images/placeholders/custom-case-1.svg"
             alt=""
             fill
-            priority
+            loading="eager"
+            preload
             sizes="(max-width: 920px) 100vw, 52vw"
           />
         </div>

@@ -4,9 +4,10 @@ import type { CustomCaseListItem } from "@/lib/queries/customCases";
 
 type CustomCaseCardProps = {
   customCase: CustomCaseListItem;
+  eager?: boolean;
 };
 
-export function CustomCaseCard({ customCase }: CustomCaseCardProps) {
+export function CustomCaseCard({ customCase, eager = false }: CustomCaseCardProps) {
   return (
     <Link className="case-card" href={`/custom-works/${customCase.slug}`}>
       <div className="case-card__image">
@@ -14,6 +15,8 @@ export function CustomCaseCard({ customCase }: CustomCaseCardProps) {
           src={customCase.coverImage}
           alt={`${customCase.title}の施工写真`}
           fill
+          loading={eager ? "eager" : "lazy"}
+          preload={eager}
           sizes="(max-width: 640px) 100vw, (max-width: 920px) 50vw, 33vw"
         />
       </div>

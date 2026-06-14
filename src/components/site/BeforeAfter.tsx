@@ -22,6 +22,8 @@ export function BeforeAfter({ title, beforeImage, afterImage }: BeforeAfterProps
                 src={beforeImage}
                 alt={`${title}の施工前`}
                 fill
+                loading="eager"
+                preload
                 sizes="(max-width: 760px) 100vw, 50vw"
               />
             </div>
