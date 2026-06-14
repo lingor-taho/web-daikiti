@@ -97,6 +97,7 @@ img {
   color: rgba(255, 255, 255, 0.82);
   font-size: 0.9rem;
   font-weight: 700;
+  outline: 0;
   transition: background 160ms ease, color 160ms ease;
 }
 
@@ -104,6 +105,12 @@ img {
 .site-header__nav-link:focus-visible {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
+}
+
+.site-header__nav-link:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(185, 28, 28, 0.88);
 }
 
 .site-header__nav-link.is-featured {
@@ -198,12 +205,19 @@ img {
   font-size: 0.95rem;
   font-weight: 800;
   line-height: 1.2;
+  outline: 0;
   transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
 }
 
 .button:hover,
 .button:focus-visible {
   transform: translateY(-1px);
+}
+
+.button:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 7px rgba(185, 28, 28, 0.9);
 }
 
 .button--accent {
