@@ -3,6 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 export const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
+export const MAX_UPLOAD_REQUEST_BYTES = MAX_UPLOAD_BYTES + 1024 * 1024;
 export const UPLOAD_PUBLIC_PATH = "/uploads/custom-cases";
 export const UPLOAD_DIRECTORY = path.join(process.cwd(), "public", "uploads", "custom-cases");
 
@@ -11,7 +12,6 @@ const allowedImageTypes = new Map([
   ["image/png", "png"],
   ["image/webp", "webp"],
   ["image/gif", "gif"],
-  ["image/svg+xml", "svg"],
 ]);
 
 export type UploadValidationResult =
@@ -52,31 +52,9 @@ function isValidImageContent(mimeType: string, bytes: Uint8Array) {
         hasPrefix(bytes, [0x47, 0x49, 0x46, 0x38, 0x37, 0x61]) ||
         hasPrefix(bytes, [0x47, 0x49, 0x46, 0x38, 0x39, 0x61])
       );
-    case "image/svg+xml":
-      return isValidSvgContent(bytes);
     default:
       return false;
   }
-}
-
-function isValidSvgContent(bytes: Uint8Array) {
-  if (bytes.includes(0x00)) {
-    return false;
-  }
-
-  let content: string;
-
-  try {
-    content = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
-  } catch {
-    return false;
-  }
-
-  if (/[\x00-\x08\x0b\x0c\x0e-\x1f]/.test(content)) {
-    return false;
-  }
-
-  return /^\uFEFF?\s*(?:<\?xml[\s\S]*?\?>\s*)?(?:<!--[\s\S]*?-->\s*)*<svg(?:\s|>|\/)/i.test(content);
 }
 
 export async function validateImageUploadFile(
@@ -86,7 +64,7 @@ export async function validateImageUploadFile(
   if (!allowedImageTypes.has(file.type)) {
     return {
       ok: false,
-      error: "Unsupported file type. Upload a JPEG, PNG, WebP, GIF, or SVG image.",
+      error: "Unsupported file type. Upload a JPEG, PNG, WebP, or GIF image.",
       status: 400,
     };
   }

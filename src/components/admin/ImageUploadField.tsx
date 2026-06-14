@@ -79,7 +79,7 @@ export function ImageUploadField({
       <div className="admin-upload-controls">
         <input
           ref={fileInputRef}
-          accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
+          accept="image/jpeg,image/png,image/webp,image/gif"
           aria-label={`Choose image file for ${label}`}
           className="admin-upload-controls__file"
           onChange={(event) => {

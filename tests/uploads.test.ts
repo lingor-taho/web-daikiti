@@ -2,9 +2,11 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   MAX_UPLOAD_BYTES,
+  MAX_UPLOAD_REQUEST_BYTES,
   createUploadFileName,
   validateImageUploadFile,
 } from "../src/lib/uploads";
+import { POST } from "../src/app/admin/uploads/route";
 
 const validPngBytes = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
@@ -19,7 +21,19 @@ test("validateImageUploadFile rejects non-image files", async () => {
 
   assert.deepEqual(await validateImageUploadFile(file), {
     ok: false,
-    error: "Unsupported file type. Upload a JPEG, PNG, WebP, GIF, or SVG image.",
+    error: "Unsupported file type. Upload a JPEG, PNG, WebP, or GIF image.",
+    status: 400,
+  });
+});
+
+test("validateImageUploadFile rejects SVG uploads", async () => {
+  const file = new File(["<svg viewBox=\"0 0 1 1\"></svg>"], "demo.svg", {
+    type: "image/svg+xml",
+  });
+
+  assert.deepEqual(await validateImageUploadFile(file), {
+    ok: false,
+    error: "Unsupported file type. Upload a JPEG, PNG, WebP, or GIF image.",
     status: 400,
   });
 });
@@ -50,4 +64,39 @@ test("createUploadFileName keeps a safe unique image extension", () => {
   const name = createUploadFileName("My Case 01.PNG", "image/png", () => "fixed-id");
 
   assert.equal(name, "my-case-01-fixed-id.png");
+});
+
+test("upload route rejects obviously oversized requests before parsing multipart data", async () => {
+  const response = await POST(
+    new Request("http://localhost/admin/uploads", {
+      headers: {
+        "content-length": String(MAX_UPLOAD_REQUEST_BYTES + 1),
+      },
+      method: "POST",
+    }),
+  );
+
+  assert.equal(response.status, 413);
+  assert.deepEqual(await response.json(), {
+    ok: false,
+    error: "Image is too large. Maximum upload size is 5MB.",
+  });
+});
+
+test("upload route returns shaped JSON for multipart parse failures", async () => {
+  const response = await POST(
+    new Request("http://localhost/admin/uploads", {
+      body: "not a multipart body",
+      headers: {
+        "content-type": "multipart/form-data; boundary=broken",
+      },
+      method: "POST",
+    }),
+  );
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    ok: false,
+    error: "Upload must be multipart/form-data with one image file.",
+  });
 });

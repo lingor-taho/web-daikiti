@@ -183,7 +183,7 @@ export function RichTextEditor({ initialValue = "", labelledBy, name }: RichText
           </button>
           <input
             ref={imageInputRef}
-            accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
+            accept="image/jpeg,image/png,image/webp,image/gif"
             className="sr-only"
             onChange={(event) => {
               const file = event.target.files?.[0];
