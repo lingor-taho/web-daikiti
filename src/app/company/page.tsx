@@ -4,17 +4,28 @@ import { InfoTable, StaticPageHero } from "@/components/site/StaticPage";
 
 export const metadata: Metadata = {
   title: "会社情報 | DKT Motors",
-  description: "DKT Motorsの会社概要、事業内容、公開前に更新予定の基本情報です。",
+  description: "DKT MOTORS（大吉再生資源株式会社）の会社概要です。",
 };
 
 const companyRows = [
-  { label: "会社名", value: "DKT Motors（正式表記は更新予定）" },
-  { label: "所在地", value: "更新予定" },
-  { label: "代表者", value: "更新予定" },
+  { label: "会社名", value: "DKT MOTORS（大吉再生資源株式会社）" },
+  {
+    label: "所在地",
+    value: (
+      <>
+        〒587-0041 本社: 大阪府堺市美原区菅生1599-1
+        <br />
+        支店: 〒595-0033 大阪府泉大津市板原町4丁目16-16
+      </>
+    ),
+  },
+  { label: "TEL", value: "072-284-8938" },
+  { label: "FAX", value: "072-284-8934" },
+  { label: "営業時間", value: "09:00〜18:00" },
+  { label: "代表取締役", value: "譚洋（TAN YAN）" },
+  { label: "設立", value: "2016年6月20日" },
+  { label: "資本金", value: "500万円" },
   { label: "事業内容", value: "自動車トータルサービス事業、プラスチックのリサイクル及び輸出" },
-  { label: "取扱領域", value: "中古車販売・買取・輸出、整備相談、自動車改装、関連用品の相談" },
-  { label: "設立", value: "更新予定" },
-  { label: "備考", value: "公開前に正確な登記情報・所在地・連絡先へ更新予定です。" },
 ];
 
 const principles = [
@@ -38,7 +49,7 @@ export default function CompanyPage() {
       <StaticPageHero
         label="Company"
         title="会社情報"
-        description="DKT Motorsの基本情報を掲載しています。会社概要の詳細値は公開前に確認し、正確な内容へ更新予定です。"
+        description="DKT MOTORS（大吉再生資源株式会社）の会社概要を掲載しています。"
       />
 
       <section className="section static-section" aria-labelledby="company-profile-heading">
@@ -47,7 +58,7 @@ export default function CompanyPage() {
             <p className="section-heading__label">Profile</p>
             <h2 id="company-profile-heading">会社概要</h2>
             <p>
-              以下の会社情報は、現在のサイト制作段階でのプレースホルダーを含みます。正式公開前に確認済みの値へ更新してください。
+              原サイト掲載情報をもとに、会社名、所在地、連絡先、設立、資本金、事業内容を整理しています。
             </p>
           </div>
           <InfoTable rows={companyRows} />

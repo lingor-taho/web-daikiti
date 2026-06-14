@@ -17,7 +17,9 @@ export function SiteFooter() {
           <Link className="site-footer__brand" href="/">
             DKT MOTORS
           </Link>
-          <p>自動車トータルサービスと改装事例を中心に、信頼できるカーライフを支えます。</p>
+          <p>大吉再生資源株式会社。自動車トータルサービスと資源循環事業を通じて、お客様のカーライフと企業活動を支えます。</p>
+          <p>〒587-0041 本社: 大阪府堺市美原区菅生1599-1 / 支店: 大阪府泉大津市板原町4丁目16-16</p>
+          <p>TEL: 072-284-8938 / FAX: 072-284-8934</p>
         </div>
         <nav className="site-footer__nav" aria-label="フッターナビゲーション">
           {footerLinks.map((link) => (

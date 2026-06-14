@@ -9,8 +9,8 @@
 
 ## Content To Replace Before Public Launch
 
-- Replace company profile placeholders on `/company`.
-- Replace address, hours, access notes, and map placeholder on `/access`.
+- Review company profile values on `/company` against the latest official registration before public launch.
+- Review address, hours, and access notes on `/access`; replace the map placeholder with a live map embed if needed.
 - Replace placeholder vehicle images with approved case photos.
 - Review privacy policy text against the final operating company and legal requirements.
 

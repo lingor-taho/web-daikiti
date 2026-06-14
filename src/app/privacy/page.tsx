@@ -3,7 +3,7 @@ import { StaticPageHero } from "@/components/site/StaticPage";
 
 export const metadata: Metadata = {
   title: "プライバシーポリシー | DKT Motors",
-  description: "DKT Motorsの個人情報の取り扱いに関する基本方針です。",
+  description: "DKT MOTORS（大吉再生資源株式会社）の個人情報の取り扱いに関する基本方針です。",
 };
 
 const policies = [
@@ -39,7 +39,7 @@ export default function PrivacyPage() {
       <StaticPageHero
         label="Privacy Policy"
         title="プライバシーポリシー"
-        description="DKT Motorsは、お問い合わせやサービス相談に伴い取得する個人情報を、必要な範囲で適切に取り扱います。"
+        description="DKT MOTORS（大吉再生資源株式会社）は、お問い合わせやサービス相談に伴い取得する個人情報を、必要な範囲で適切に取り扱います。"
       />
 
       <section className="section static-section" aria-labelledby="privacy-heading">

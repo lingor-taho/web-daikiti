@@ -8,7 +8,7 @@ export function HomeHero() {
         <div className="home-hero__content">
           <h1>自動車トータルサービスと改装で、車の価値を引き出す。</h1>
           <p className="home-hero__lead">
-            DKT Motorsは中古車販売、買取、輸出、そして自動車改装まで幅広く対応するカーライフパートナーです。確かなサービスと施工事例で、お客様の一台にふさわしい提案を行います。
+            DKT MOTORS（大吉再生資源株式会社）は、中古車販売から輸出、改装提案まで幅広く対応するトータルカーサポート企業です。カーライフを安心で快適なものにするため、用途に合わせた一台づくりを支えます。
           </p>
           <div className="button-row">
             <Link className="button button--accent" href="/custom-works">

@@ -7,7 +7,7 @@ export function ContactCta() {
         <div>
           <h2>車両販売・買取・改装のご相談はこちら</h2>
           <p>
-            ご希望の車両、改装内容、輸出に関するご相談まで、お問い合わせフォームよりお気軽にご連絡ください。
+            お電話でのお問い合わせは 072-284-8938、営業時間は 09:00〜18:00 です。WEBからのお問い合わせは24時間受け付けています。
           </p>
         </div>
         <Link className="button button--dark" href="/contact">

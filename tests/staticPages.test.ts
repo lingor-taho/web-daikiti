@@ -14,12 +14,12 @@ const staticPages = [
   {
     route: "/company",
     file: "src/app/company/page.tsx",
-    expectedText: ["会社情報", "更新予定"],
+    expectedText: ["会社情報", "大吉再生資源株式会社", "072-284-8938"],
   },
   {
     route: "/access",
     file: "src/app/access/page.tsx",
-    expectedText: ["アクセス", "所在地は更新予定"],
+    expectedText: ["アクセス", "大阪府堺市美原区菅生1599-1", "09:00〜18:00"],
   },
   {
     route: "/privacy",
