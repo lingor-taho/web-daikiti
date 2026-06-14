@@ -57,7 +57,6 @@ export const customCaseScalarSchema = z.object({
   status: z.enum(PublishStatus),
   isFeatured: checkboxBoolean,
   sortOrder: z.coerce.number().int().default(0),
-  publishedAt: z.string().trim().optional().or(z.literal("")),
 });
 
 export const customCaseRelationSchema = z.object({

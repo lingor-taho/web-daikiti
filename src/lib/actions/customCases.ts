@@ -37,8 +37,15 @@ function buildCustomCaseData({ data }: ParsedCustomCase) {
     status: data.status,
     isFeatured: data.isFeatured,
     sortOrder: data.sortOrder,
-    publishedAt: data.status === PublishStatus.PUBLISHED ? new Date() : null,
-  } satisfies Prisma.CustomCaseUncheckedCreateInput;
+  } satisfies Omit<Prisma.CustomCaseUncheckedCreateInput, "publishedAt">;
+}
+
+function getNextPublishedAt(status: PublishStatus, currentPublishedAt?: Date | null) {
+  if (status === PublishStatus.DRAFT) {
+    return null;
+  }
+
+  return currentPublishedAt ?? new Date();
 }
 
 function validationErrorMessage(error: { issues: { path: PropertyKey[]; message: string }[] }) {
@@ -82,6 +89,7 @@ export async function createCustomCaseAction(formData: FormData): Promise<void> 
     await db.customCase.create({
       data: {
         ...buildCustomCaseData(parsed.data),
+        publishedAt: getNextPublishedAt(parsed.data.data.status),
         categories: {
           create: categoryIds.map((categoryId) => ({ categoryId })),
         },
@@ -116,7 +124,7 @@ export async function updateCustomCaseAction(
     await db.$transaction(async (tx) => {
       const existing = await tx.customCase.findUnique({
         where: { id },
-        select: { slug: true },
+        select: { publishedAt: true, slug: true },
       });
 
       if (!existing) {
@@ -127,7 +135,10 @@ export async function updateCustomCaseAction(
 
       await tx.customCase.update({
         where: { id },
-        data: buildCustomCaseData(parsed.data),
+        data: {
+          ...buildCustomCaseData(parsed.data),
+          publishedAt: getNextPublishedAt(parsed.data.data.status, existing.publishedAt),
+        },
       });
 
       await tx.customCaseCategory.deleteMany({

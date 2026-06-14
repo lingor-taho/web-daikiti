@@ -8,11 +8,15 @@ import { useState } from "react";
 
 type RichTextEditorProps = {
   initialValue?: string;
+  labelledBy?: string;
   name: string;
 };
 
-export function RichTextEditor({ initialValue = "", name }: RichTextEditorProps) {
+export function RichTextEditor({ initialValue = "", labelledBy, name }: RichTextEditorProps) {
   const [html, setHtml] = useState(initialValue);
+  const editorAttributes: Record<string, string> = labelledBy
+    ? { "aria-labelledby": labelledBy }
+    : { "aria-label": "Rich text body" };
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -26,6 +30,9 @@ export function RichTextEditor({ initialValue = "", name }: RichTextEditorProps)
       Image,
     ],
     content: initialValue,
+    editorProps: {
+      attributes: editorAttributes,
+    },
     immediatelyRender: false,
     onUpdate: ({ editor: currentEditor }) => {
       setHtml(currentEditor.getHTML());
@@ -65,70 +72,72 @@ export function RichTextEditor({ initialValue = "", name }: RichTextEditorProps)
   }
 
   return (
-    <div className="admin-rich-editor">
+    <>
       <input name={name} type="hidden" value={html} />
-      <div className="admin-rich-editor__toolbar" aria-label="Rich text tools">
-        <button
-          className={editor?.isActive("heading", { level: 2 }) ? "is-active" : ""}
-          disabled={!editor}
-          onClick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
-          type="button"
-        >
-          H2
-        </button>
-        <button
-          className={editor?.isActive("heading", { level: 3 }) ? "is-active" : ""}
-          disabled={!editor}
-          onClick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}
-          type="button"
-        >
-          H3
-        </button>
-        <button
-          className={editor?.isActive("bold") ? "is-active" : ""}
-          disabled={!editor}
-          onClick={() => editor?.chain().focus().toggleBold().run()}
-          type="button"
-        >
-          B
-        </button>
-        <button
-          className={editor?.isActive("italic") ? "is-active" : ""}
-          disabled={!editor}
-          onClick={() => editor?.chain().focus().toggleItalic().run()}
-          type="button"
-        >
-          I
-        </button>
-        <button
-          className={editor?.isActive("bulletList") ? "is-active" : ""}
-          disabled={!editor}
-          onClick={() => editor?.chain().focus().toggleBulletList().run()}
-          type="button"
-        >
-          List
-        </button>
-        <button
-          className={editor?.isActive("orderedList") ? "is-active" : ""}
-          disabled={!editor}
-          onClick={() => editor?.chain().focus().toggleOrderedList().run()}
-          type="button"
-        >
-          1.
-        </button>
-        <button
-          className={editor?.isActive("link") ? "is-active" : ""}
-          disabled={!editor}
-          onClick={setLink}
-          type="button"
-        >
-          Link
-        </button>
-        <button disabled={!editor} onClick={addImage} type="button">
-          Image
-        </button>
+      <div className="admin-rich-editor" role="group" aria-labelledby={labelledBy}>
+        <div className="admin-rich-editor__toolbar" aria-label="Rich text tools">
+          <button
+            className={editor?.isActive("heading", { level: 2 }) ? "is-active" : ""}
+            disabled={!editor}
+            onClick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
+            type="button"
+          >
+            H2
+          </button>
+          <button
+            className={editor?.isActive("heading", { level: 3 }) ? "is-active" : ""}
+            disabled={!editor}
+            onClick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}
+            type="button"
+          >
+            H3
+          </button>
+          <button
+            className={editor?.isActive("bold") ? "is-active" : ""}
+            disabled={!editor}
+            onClick={() => editor?.chain().focus().toggleBold().run()}
+            type="button"
+          >
+            B
+          </button>
+          <button
+            className={editor?.isActive("italic") ? "is-active" : ""}
+            disabled={!editor}
+            onClick={() => editor?.chain().focus().toggleItalic().run()}
+            type="button"
+          >
+            I
+          </button>
+          <button
+            className={editor?.isActive("bulletList") ? "is-active" : ""}
+            disabled={!editor}
+            onClick={() => editor?.chain().focus().toggleBulletList().run()}
+            type="button"
+          >
+            List
+          </button>
+          <button
+            className={editor?.isActive("orderedList") ? "is-active" : ""}
+            disabled={!editor}
+            onClick={() => editor?.chain().focus().toggleOrderedList().run()}
+            type="button"
+          >
+            1.
+          </button>
+          <button
+            className={editor?.isActive("link") ? "is-active" : ""}
+            disabled={!editor}
+            onClick={setLink}
+            type="button"
+          >
+            Link
+          </button>
+          <button disabled={!editor} onClick={addImage} type="button">
+            Image
+          </button>
+        </div>
+        <EditorContent className="admin-rich-editor__content" editor={editor} />
       </div>
-      <EditorContent className="admin-rich-editor__content" editor={editor} />
-    </div>
+    </>
   );
 }

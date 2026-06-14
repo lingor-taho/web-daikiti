@@ -116,10 +116,10 @@ export function CustomCaseForm({
 
       <section className="admin-form__section" aria-labelledby="case-content-fields">
         <h2 id="case-content-fields">Content</h2>
-        <label className="admin-field">
-          <span>Body</span>
-          <RichTextEditor initialValue={values.content ?? ""} name="content" />
-        </label>
+        <div className="admin-field">
+          <span id="case-content-body-label">Body</span>
+          <RichTextEditor initialValue={values.content ?? ""} labelledBy="case-content-body-label" name="content" />
+        </div>
 
         <label className="admin-field">
           <span>Gallery JSON</span>
