@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Brand {
+  id        Int          @id @default(autoincrement())
+  name      String
+  slug      String       @unique
+  sortOrder Int          @default(0)
+  isActive  Boolean      @default(true)
+  cases     CustomCase[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model CustomCategory {
+  id        Int                  @id @default(autoincrement())
+  name      String
+  slug      String               @unique
+  sortOrder Int                  @default(0)
+  isActive  Boolean              @default(true)
+  cases     CustomCaseCategory[]
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+}
+
+model CustomCase {
+  id          Int                  @id @default(autoincrement())
+  title       String
+  slug        String               @unique
+  brandId     Int
+  brand       Brand                @relation(fields: [brandId], references: [id])
+  modelName   String?
+  summary     String
+  coverImage  String
+  beforeImage String?
+  afterImage  String?
+  content     String
+  galleryJson String               @default("[]")
+  status      PublishStatus        @default(DRAFT)
+  isFeatured  Boolean              @default(false)
+  sortOrder   Int                  @default(0)
+  publishedAt DateTime?
+  categories  CustomCaseCategory[]
+  tags        CustomCaseTag[]
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+}
+
+model CustomCaseCategory {
+  customCaseId Int
+  categoryId   Int
+  customCase   CustomCase     @relation(fields: [customCaseId], references: [id], onDelete: Cascade)
+  category     CustomCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([customCaseId, categoryId])
+}
+
+model CustomCaseTag {
+  id           Int        @id @default(autoincrement())
+  customCaseId Int
+  customCase   CustomCase @relation(fields: [customCaseId], references: [id], onDelete: Cascade)
+  name         String
+}
+
+model Inquiry {
+  id          Int           @id @default(autoincrement())
+  name        String
+  email       String
+  phone       String?
+  inquiryType String?
+  message     String
+  status      InquiryStatus @default(UNREAD)
+  adminMemo   String?
+  submittedAt DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+enum PublishStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum InquiryStatus {
+  UNREAD
+  READ
+}
