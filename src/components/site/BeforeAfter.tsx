@@ -13,7 +13,7 @@ export function BeforeAfter({ title, beforeImage, afterImage }: BeforeAfterProps
 
   return (
     <section className="before-after" aria-labelledby="before-after-heading">
-      <h2 id="before-after-heading">Before / After</h2>
+      <h2 id="before-after-heading">施工前後</h2>
       <div className="before-after__grid">
         {beforeImage ? (
           <figure className="before-after__item">
@@ -27,7 +27,7 @@ export function BeforeAfter({ title, beforeImage, afterImage }: BeforeAfterProps
                 sizes="(max-width: 760px) 100vw, 50vw"
               />
             </div>
-            <figcaption>Before</figcaption>
+            <figcaption>施工前</figcaption>
           </figure>
         ) : null}
         {afterImage ? (
@@ -35,7 +35,7 @@ export function BeforeAfter({ title, beforeImage, afterImage }: BeforeAfterProps
             <div className="before-after__image">
               <Image src={afterImage} alt={`${title}の施工後`} fill sizes="(max-width: 760px) 100vw, 50vw" />
             </div>
-            <figcaption>After</figcaption>
+            <figcaption>施工後</figcaption>
           </figure>
         ) : null}
       </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { BeforeAfter } from "@/components/site/BeforeAfter";
 import { CaseSpec } from "@/components/site/CaseSpec";
 import { RichContent } from "@/components/site/RichContent";
@@ -15,10 +16,13 @@ type CustomCaseDetailPageProps = {
 export default async function CustomCaseDetailPage({ params }: CustomCaseDetailPageProps) {
   const { slug } = await params;
   const customCase = await getCustomCaseBySlug(slug);
+  const heroStyle = {
+    "--page-hero-image": `url("${customCase.coverImage}")`,
+  } as CSSProperties;
 
   return (
     <main className="custom-case-page">
-      <section className="custom-case-hero">
+      <section className="custom-case-hero" style={heroStyle}>
         <div className="container custom-case-hero__inner">
           <p className="custom-case-hero__brand">{customCase.brand.name}</p>
           <h1>{customCase.title}</h1>
@@ -34,7 +38,7 @@ export default async function CustomCaseDetailPage({ params }: CustomCaseDetailP
             title={customCase.title}
           />
           <section className="custom-case-process" aria-labelledby="custom-case-process-heading">
-            <h2 id="custom-case-process-heading">Process</h2>
+            <h2 id="custom-case-process-heading">施工内容</h2>
             <RichContent html={customCase.content} />
           </section>
         </article>

@@ -24,13 +24,13 @@ function getCategoryHref(category?: string, brand?: string) {
 
 export function CategoryFilter({ categories, currentBrand, currentCategory }: CategoryFilterProps) {
   return (
-    <nav className="brand-filter" aria-label="Filter by category">
+    <nav className="brand-filter" aria-label="施工内容で絞り込み">
       <Link
         aria-current={!currentCategory ? "page" : undefined}
         className={!currentCategory ? "brand-filter__item is-active" : "brand-filter__item"}
         href={getCategoryHref(undefined, currentBrand)}
       >
-        ALL
+        すべて
       </Link>
       {categories.map((category) => (
         <Link

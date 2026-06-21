@@ -29,23 +29,23 @@ export default async function CustomWorksPage({ searchParams }: CustomWorksPageP
     <main className="custom-works-page">
       <section className="custom-works-hero">
         <div className="container custom-works-hero__inner">
-          <p className="custom-works-hero__label">Custom Works</p>
-          <h1>自動車改装事例</h1>
-          <p>ブランドや施工内容に合わせて、DKT Motorsの改装事例をご覧いただけます。</p>
+          <p className="custom-works-hero__label">カスタム事例</p>
+          <h1>自動車カスタム事例</h1>
+          <p>メーカーや施工内容から、DKT MOTORSのカスタム事例をご覧いただけます。</p>
         </div>
       </section>
 
       <section className="section custom-works-list" aria-labelledby="custom-works-list-heading">
         <div className="container">
           <div className="custom-works-list__top">
-            <h2 id="custom-works-list-heading">Works</h2>
+            <h2 id="custom-works-list-heading">事例一覧</h2>
             <div className="custom-works-filters">
               <div className="custom-works-filters__group">
-                <span className="custom-works-filters__label">Brand</span>
+                <span className="custom-works-filters__label">メーカー</span>
                 <BrandFilter brands={brands} currentBrand={currentBrand} currentCategory={currentCategory} />
               </div>
               <div className="custom-works-filters__group">
-                <span className="custom-works-filters__label">Category</span>
+                <span className="custom-works-filters__label">施工内容</span>
                 <CategoryFilter
                   categories={categories}
                   currentBrand={currentBrand}

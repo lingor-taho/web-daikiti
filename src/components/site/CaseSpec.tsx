@@ -16,26 +16,26 @@ export function CaseSpec({ customCase }: CaseSpecProps) {
 
   return (
     <aside className="case-spec" aria-labelledby="case-spec-heading">
-      <h2 id="case-spec-heading">Spec</h2>
+      <h2 id="case-spec-heading">事例情報</h2>
       <dl className="case-spec__list">
         <div>
-          <dt>Brand</dt>
+          <dt>メーカー</dt>
           <dd>{customCase.brand.name}</dd>
         </div>
         <div>
-          <dt>Model</dt>
+          <dt>車種</dt>
           <dd>{customCase.modelName ?? "未設定"}</dd>
         </div>
         <div>
-          <dt>Categories</dt>
+          <dt>施工内容</dt>
           <dd>{categories.length > 0 ? categories.join(" / ") : "未設定"}</dd>
         </div>
         <div>
-          <dt>Tags</dt>
+          <dt>タグ</dt>
           <dd>{tags.length > 0 ? tags.map((tag) => `#${tag}`).join(" ") : "未設定"}</dd>
         </div>
         <div>
-          <dt>Published</dt>
+          <dt>掲載日</dt>
           <dd>{customCase.publishedAt ? dateFormatter.format(customCase.publishedAt) : "未設定"}</dd>
         </div>
       </dl>
