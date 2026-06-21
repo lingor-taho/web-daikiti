@@ -42,9 +42,9 @@ export function SiteHeader() {
           <Link className="site-header__brand" href="/" aria-label="DKT MOTORS ホーム">
             <Image src="/images/original-site/logo.jpg" alt="DKT MOTORS" width={190} height={58} priority />
           </Link>
-          <a className="site-header__company-name" href="https://daikiti-corp.co.jp/">
+          <Link className="site-header__company-name" href="/">
             大吉再生資源株式会社
-          </a>
+          </Link>
         </div>
         <button
           className="site-header__menu-button"
