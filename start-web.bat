@@ -4,7 +4,7 @@ chcp 65001 >nul
 
 cd /d "%~dp0"
 
-if not defined PORT set "PORT=3000"
+if not defined PORT set "PORT=13000"
 if not defined HOST set "HOST=0.0.0.0"
 if not defined BROWSER_HOST set "BROWSER_HOST=127.0.0.1"
 if not defined PUBLIC_HOST set "PUBLIC_HOST=43.165.177.49"
