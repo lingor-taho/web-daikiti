@@ -5,7 +5,7 @@ process.env.DATABASE_URL ??= "file:./dev.db";
 const prisma = new PrismaClient();
 const samplePublishedAt = new Date("2026-06-14T00:00:00.000Z");
 
-async function main() {
+export async function main() {
   const brands = [
     ["トヨタ", "toyota"],
     ["レクサス", "lexus"],
@@ -246,11 +246,17 @@ async function main() {
   });
 }
 
-main()
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+export async function disconnect() {
+  await prisma.$disconnect();
+}
+
+if (process.argv[1]?.endsWith("seed.ts")) {
+  main()
+    .catch((error) => {
+      console.error(error);
+      process.exit(1);
+    })
+    .finally(async () => {
+      await disconnect();
+    });
+}

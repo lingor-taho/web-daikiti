@@ -29,20 +29,19 @@ if not exist "node_modules" (
   )
 )
 
-if not exist "prisma\dev.db" (
-  echo Preparing local database...
-  call npm run db:migrate
-  if errorlevel 1 (
-    echo [ERROR] database migration failed.
-    pause
-    exit /b 1
-  )
-  call npm run db:seed
-  if errorlevel 1 (
-    echo [ERROR] database seed failed.
-    pause
-    exit /b 1
-  )
+echo Preparing database schema...
+call npm run db:deploy
+if errorlevel 1 (
+  echo [ERROR] database migration failed.
+  pause
+  exit /b 1
+)
+
+call npm run db:seed-if-empty
+if errorlevel 1 (
+  echo [ERROR] database seed check failed.
+  pause
+  exit /b 1
 )
 
 echo.
@@ -55,7 +54,9 @@ echo.
 echo Press Ctrl+C to stop the service.
 echo.
 
-if not "%SKIP_BUILD%"=="1" (
+if "%SKIP_BUILD%"=="1" (
+  echo Skipping production build.
+) else if not exist ".next\BUILD_ID" (
   echo Building production app...
   call npm run build
   if errorlevel 1 (
