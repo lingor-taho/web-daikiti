@@ -5,7 +5,9 @@ chcp 65001 >nul
 cd /d "%~dp0"
 
 if not defined PORT set "PORT=3000"
-if not defined HOST set "HOST=127.0.0.1"
+if not defined HOST set "HOST=0.0.0.0"
+if not defined BROWSER_HOST set "BROWSER_HOST=127.0.0.1"
+if not defined PUBLIC_HOST set "PUBLIC_HOST=43.165.177.49"
 if not defined DATABASE_URL set "DATABASE_URL=file:./dev.db"
 if not defined ADMIN_USER set "ADMIN_USER=admin"
 if not defined ADMIN_PASSWORD set "ADMIN_PASSWORD=admin123"
@@ -45,14 +47,25 @@ if not exist "prisma\dev.db" (
 
 echo.
 echo Starting DKT Motors website...
-echo URL:   http://%HOST%:%PORT%
-echo Admin: http://%HOST%:%PORT%/admin
+echo Local URL:   http://%BROWSER_HOST%:%PORT%
+echo Public URL:  http://%PUBLIC_HOST%:%PORT%
+echo Admin:       http://%PUBLIC_HOST%:%PORT%/admin
 echo Local admin account: %ADMIN_USER% / %ADMIN_PASSWORD%
 echo.
 echo Press Ctrl+C to stop the service.
 echo.
 
-start "" "http://%HOST%:%PORT%"
-call npm run dev -- --hostname %HOST% --port %PORT%
+if not "%SKIP_BUILD%"=="1" (
+  echo Building production app...
+  call npm run build
+  if errorlevel 1 (
+    echo [ERROR] npm run build failed.
+    pause
+    exit /b 1
+  )
+)
+
+start "" "http://%BROWSER_HOST%:%PORT%"
+call npm run start -- --hostname %HOST% --port %PORT%
 
 endlocal
