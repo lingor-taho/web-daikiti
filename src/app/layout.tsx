@@ -6,6 +6,9 @@ import "../styles/globals.css";
 export const metadata: Metadata = {
   title: "DKT Motors",
   description: "DKT Motors website redesign",
+  icons: {
+    icon: "/images/original-site/logo.jpg",
+  },
 };
 
 export default function RootLayout({

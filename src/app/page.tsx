@@ -2,6 +2,7 @@ import { BusinessSummary } from "@/components/site/BusinessSummary";
 import { ContactCta } from "@/components/site/ContactCta";
 import { FeaturedCases } from "@/components/site/FeaturedCases";
 import { HomeHero } from "@/components/site/HomeHero";
+import { HomeIntroAnimation } from "@/components/site/HomeIntroAnimation";
 import { getFeaturedCustomCases } from "@/lib/queries/customCases";
 
 export const dynamic = "force-dynamic";
@@ -11,6 +12,7 @@ export default async function Home() {
 
   return (
     <main>
+      <HomeIntroAnimation />
       <HomeHero />
       <BusinessSummary />
       <FeaturedCases cases={cases} />
