@@ -56,7 +56,7 @@ echo.
 
 if "%SKIP_BUILD%"=="1" (
   echo Skipping production build.
-) else if not exist ".next\BUILD_ID" (
+) else (
   echo Building production app...
   call npm run build
   if errorlevel 1 (
