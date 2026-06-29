@@ -56,7 +56,11 @@ test("home intro video uses only the animation asset without a poster image", ()
   const animationSource = readFileSync(join(appRoot, "src/components/site/HomeIntroAnimation.tsx"), "utf8");
   const stylesSource = readFileSync(join(appRoot, "src/styles/globals.css"), "utf8");
 
+  assert.match(animationSource, /useState\(true\)/);
+  assert.match(animationSource, /useLayoutEffect/);
   assert.doesNotMatch(animationSource, /poster=/);
+  assert.doesNotMatch(animationSource, /currentTime/);
+  assert.doesNotMatch(animationSource, /onEnded/);
   assert.doesNotMatch(stylesSource, /background-image:\s*url\("\/images\/intro\/racetrack-scene\.png"\)/);
 });
 

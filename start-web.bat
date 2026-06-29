@@ -29,6 +29,15 @@ if not exist "node_modules" (
 )
 
 echo.
+echo Building DKT Motors demo...
+call npm run build
+if errorlevel 1 (
+  echo [ERROR] build failed.
+  pause
+  exit /b 1
+)
+
+echo.
 echo Starting DKT Motors demo...
 echo Public URL:  http://%PUBLIC_HOST%:%PORT%
 echo Local URL:   http://127.0.0.1:%PORT%
@@ -39,6 +48,6 @@ echo Press Ctrl+C to stop.
 echo.
 
 start "" "http://127.0.0.1:%PORT%"
-call npm run dev -- --hostname %HOST% --port %PORT%
+call npm run start -- --hostname %HOST% --port %PORT%
 
 endlocal

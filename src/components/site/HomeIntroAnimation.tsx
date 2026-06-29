@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 declare global {
   interface Window {
@@ -19,16 +19,17 @@ function isInitialHomeDocumentLoad() {
 }
 
 export function HomeIntroAnimation() {
-  const [isMounted, setIsMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (window.__dktHomeIntroPlayedInDocument || !isInitialHomeDocumentLoad()) {
+      setIsMounted(false);
       return;
     }
 
     window.__dktHomeIntroPlayedInDocument = true;
-    setIsMounted(true);
+    void videoRef.current?.play().catch(() => undefined);
 
     const timer = window.setTimeout(() => setIsMounted(false), 5400);
     return () => window.clearTimeout(timer);
@@ -49,13 +50,7 @@ export function HomeIntroAnimation() {
         playsInline
         preload="auto"
         onCanPlay={() => void videoRef.current?.play().catch(() => undefined)}
-        onEnded={() => setIsMounted(false)}
         onError={() => setIsMounted(false)}
-        onLoadedMetadata={() => {
-          if (videoRef.current && videoRef.current.currentTime < 0.35) {
-            videoRef.current.currentTime = 0.35;
-          }
-        }}
       />
     </div>
   );
