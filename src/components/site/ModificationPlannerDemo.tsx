@@ -542,7 +542,7 @@ export function ModificationPlannerDemo() {
                             0,
                           );
                           return (
-                            <div className="custom-plan-category-group" key={category.id}>
+                            <div className={`custom-plan-category-group${category.id === activeCategoryId ? " is-active" : ""}`} key={category.id}>
                               <button
                                 className={category.id === activeCategoryId ? "is-active" : ""}
                                 type="button"

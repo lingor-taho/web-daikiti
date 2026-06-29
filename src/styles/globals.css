@@ -6804,7 +6804,7 @@ body {
     transition: flex-basis 180ms ease;
   }
 
-  .custom-plan-category-group:has(> button.is-active) {
+  .custom-plan-category-group.is-active {
     flex: 1 1 calc(100% - 132px);
   }
 
@@ -6852,7 +6852,11 @@ body {
 
 @media (max-width: 560px) {
   .custom-plan-category-rail button {
-    grid-template-columns: 24px minmax(0, 1fr) auto;
+    grid-template-columns: 1fr;
+  }
+
+  .custom-plan-category-rail button.is-active {
+    grid-template-columns: 22px minmax(0, 1fr);
   }
 
   .custom-plan-detail-list button {

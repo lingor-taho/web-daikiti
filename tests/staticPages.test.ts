@@ -67,8 +67,9 @@ test("custom planner mobile categories stay above a shared detail panel", () => 
   assert.match(plannerSource, /custom-plan-category-group/);
   assert.match(plannerSource, /custom-plan-category-row/);
   assert.doesNotMatch(plannerSource, /custom-plan-mobile-detail-panel/);
+  assert.doesNotMatch(stylesSource, /custom-plan-category-group:has\(/);
   assert.match(stylesSource, /@media \(max-width: 760px\)[\s\S]*\.custom-plan-category-row[\s\S]*display: flex/);
-  assert.match(stylesSource, /@media \(max-width: 760px\)[\s\S]*\.custom-plan-category-group:has\(> button\.is-active\)/);
+  assert.match(stylesSource, /@media \(max-width: 760px\)[\s\S]*\.custom-plan-category-group\.is-active/);
   assert.match(stylesSource, /@media \(max-width: 760px\)[\s\S]*\.custom-plan-category-rail button span[\s\S]*display: none/);
   assert.match(stylesSource, /@media \(max-width: 760px\)[\s\S]*\.custom-plan-category-rail button\.is-active span[\s\S]*display: block/);
   assert.match(stylesSource, /@media \(max-width: 760px\)[\s\S]*white-space: nowrap/);
