@@ -18,8 +18,6 @@ function isInitialHomeDocumentLoad() {
   return new URL(navigation.name).pathname === window.location.pathname;
 }
 
-const mobileFrameSources = Array.from({ length: 12 }, (_, index) => `/images/intro/mobile-sequence/frame-${String(index + 1).padStart(2, "0")}.png`);
-
 export function HomeIntroAnimation() {
   const [isMounted, setIsMounted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -43,11 +41,6 @@ export function HomeIntroAnimation() {
 
   return (
     <div className="home-intro home-intro--video" aria-hidden="true">
-      <div className="home-intro__mobile-fallback">
-        {mobileFrameSources.map((src) => (
-          <img className="home-intro__mobile-preload" src={src} alt="" key={src} />
-        ))}
-      </div>
       <video
         className="home-intro__video"
         ref={videoRef}
