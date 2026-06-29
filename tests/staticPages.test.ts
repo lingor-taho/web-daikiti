@@ -41,5 +41,13 @@ test("static company content routes exist with required Japanese content", () =>
 test("footer links to the privacy policy route", () => {
   const footerSource = readFileSync(join(appRoot, "src/components/site/SiteFooter.tsx"), "utf8");
 
-  assert.match(footerSource, /href: "\/privacy"/);
+  assert.match(footerSource, /href=["{]\/privacy/);
+});
+
+test("home intro animation only plays for the document's initial home load", () => {
+  const animationSource = readFileSync(join(appRoot, "src/components/site/HomeIntroAnimation.tsx"), "utf8");
+
+  assert.doesNotMatch(animationSource, /sessionStorage/);
+  assert.match(animationSource, /__dktHomeIntroPlayedInDocument/);
+  assert.match(animationSource, /performance\.getEntriesByType\("navigation"\)/);
 });

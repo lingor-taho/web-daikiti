@@ -2,10 +2,33 @@
 
 import { useEffect, useState } from "react";
 
+declare global {
+  interface Window {
+    __dktHomeIntroPlayedInDocument?: boolean;
+  }
+}
+
+function isInitialHomeDocumentLoad() {
+  const navigation = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
+
+  if (!navigation?.name) {
+    return true;
+  }
+
+  return new URL(navigation.name).pathname === window.location.pathname;
+}
+
 export function HomeIntroAnimation() {
-  const [isMounted, setIsMounted] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    if (window.__dktHomeIntroPlayedInDocument || !isInitialHomeDocumentLoad()) {
+      return;
+    }
+
+    window.__dktHomeIntroPlayedInDocument = true;
+    setIsMounted(true);
+
     const timer = window.setTimeout(() => setIsMounted(false), 5400);
     return () => window.clearTimeout(timer);
   }, []);
