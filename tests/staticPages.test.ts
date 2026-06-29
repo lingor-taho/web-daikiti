@@ -61,7 +61,9 @@ test("home intro video uses only the animation asset without a poster image", ()
   assert.doesNotMatch(animationSource, /poster=/);
   assert.doesNotMatch(animationSource, /currentTime/);
   assert.doesNotMatch(animationSource, /onEnded/);
-  assert.doesNotMatch(stylesSource, /background-image:\s*url\("\/images\/intro\/racetrack-scene\.png"\)/);
+  assert.match(animationSource, /home-intro__mobile-fallback/);
+  assert.match(stylesSource, /@media \(max-width: 760px\)[\s\S]*\.home-intro__video[\s\S]*display: none/);
+  assert.match(stylesSource, /@media \(max-width: 760px\)[\s\S]*\.home-intro__mobile-fallback[\s\S]*display: block/);
 });
 
 test("custom planner mobile categories stay above a shared detail panel", () => {
