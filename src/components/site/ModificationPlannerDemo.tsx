@@ -539,16 +539,17 @@ export function ModificationPlannerDemo() {
                         0,
                       );
                       return (
-                        <button
-                          className={category.id === activeCategoryId ? "is-active" : ""}
-                          key={category.id}
-                          type="button"
-                          onClick={() => chooseCategory(category.id)}
-                        >
-                          <Icon aria-hidden="true" size={19} />
-                          <span>{category.title}</span>
-                          {selectedCount > 0 ? <strong>{selectedCount}</strong> : null}
-                        </button>
+                        <div className="custom-plan-category-group" key={category.id}>
+                          <button
+                            className={category.id === activeCategoryId ? "is-active" : ""}
+                            type="button"
+                            onClick={() => chooseCategory(category.id)}
+                          >
+                            <Icon aria-hidden="true" size={19} />
+                            <span>{category.title}</span>
+                            {selectedCount > 0 ? <strong>{selectedCount}</strong> : null}
+                          </button>
+                        </div>
                       );
                     })}
                   </div>

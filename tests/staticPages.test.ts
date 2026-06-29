@@ -51,3 +51,22 @@ test("home intro animation only plays for the document's initial home load", () 
   assert.match(animationSource, /__dktHomeIntroPlayedInDocument/);
   assert.match(animationSource, /performance\.getEntriesByType\("navigation"\)/);
 });
+
+test("home intro video has a visible poster fallback for mobile", () => {
+  const animationSource = readFileSync(join(appRoot, "src/components/site/HomeIntroAnimation.tsx"), "utf8");
+  const stylesSource = readFileSync(join(appRoot, "src/styles/globals.css"), "utf8");
+
+  assert.match(animationSource, /poster="\/images\/intro\/racetrack-scene\.png"/);
+  assert.match(stylesSource, /background-image:\s*url\("\/images\/intro\/racetrack-scene\.png"\)/);
+});
+
+test("custom planner mobile categories stay above a shared detail panel", () => {
+  const plannerSource = readFileSync(join(appRoot, "src/components/site/ModificationPlannerDemo.tsx"), "utf8");
+  const stylesSource = readFileSync(join(appRoot, "src/styles/globals.css"), "utf8");
+
+  assert.match(plannerSource, /custom-plan-category-group/);
+  assert.doesNotMatch(plannerSource, /custom-plan-mobile-detail-panel/);
+  assert.match(stylesSource, /@media \(max-width: 760px\)[\s\S]*\.custom-plan-category-rail[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
+  assert.match(stylesSource, /@media \(max-width: 760px\)[\s\S]*\.custom-plan-category-rail button span[\s\S]*display: none/);
+  assert.match(stylesSource, /@media \(max-width: 760px\)[\s\S]*\.custom-plan-category-rail button\.is-active span[\s\S]*display: block/);
+});
