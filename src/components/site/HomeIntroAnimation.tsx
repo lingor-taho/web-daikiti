@@ -42,7 +42,6 @@ export function HomeIntroAnimation() {
       <video
         className="home-intro__video"
         src="/videos/intro/opening-race.mp4?v=20260628a"
-        poster="/images/intro/racetrack-scene.png"
         autoPlay
         muted
         playsInline

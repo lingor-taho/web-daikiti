@@ -474,6 +474,7 @@ export function ModificationPlannerDemo() {
 
   const activeCategory = customCategories.find((category) => category.id === activeCategoryId) ?? customCategories[0];
   const activeItem = activeCategory.items.find((item) => item.id === activeItemId) ?? activeCategory.items[0];
+  const categoryRows = [customCategories.slice(0, 3), customCategories.slice(3, 6)];
   const selectedItems = useMemo(() => getSelectedCustoms(selectedVariantIds), [selectedVariantIds]);
   const totalPrice = selectedItems.reduce((sum, item) => sum + item.price, 0);
 
@@ -532,26 +533,30 @@ export function ModificationPlannerDemo() {
 
                 <div className="custom-plan-selector">
                   <div className="custom-plan-category-rail" aria-label="改装大類">
-                    {customCategories.map((category) => {
-                      const Icon = category.icon;
-                      const selectedCount = category.items.reduce(
-                        (count, item) => count + item.variants.filter((variant) => selectedVariantIds.includes(variant.id)).length,
-                        0,
-                      );
-                      return (
-                        <div className="custom-plan-category-group" key={category.id}>
-                          <button
-                            className={category.id === activeCategoryId ? "is-active" : ""}
-                            type="button"
-                            onClick={() => chooseCategory(category.id)}
-                          >
-                            <Icon aria-hidden="true" size={19} />
-                            <span>{category.title}</span>
-                            {selectedCount > 0 ? <strong>{selectedCount}</strong> : null}
-                          </button>
-                        </div>
-                      );
-                    })}
+                    {categoryRows.map((row) => (
+                      <div className="custom-plan-category-row" key={row.map((category) => category.id).join("-")}>
+                        {row.map((category) => {
+                          const Icon = category.icon;
+                          const selectedCount = category.items.reduce(
+                            (count, item) => count + item.variants.filter((variant) => selectedVariantIds.includes(variant.id)).length,
+                            0,
+                          );
+                          return (
+                            <div className="custom-plan-category-group" key={category.id}>
+                              <button
+                                className={category.id === activeCategoryId ? "is-active" : ""}
+                                type="button"
+                                onClick={() => chooseCategory(category.id)}
+                              >
+                                <Icon aria-hidden="true" size={19} />
+                                <span>{category.title}</span>
+                                {selectedCount > 0 ? <strong>{selectedCount}</strong> : null}
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ))}
                   </div>
 
                   <div className="custom-plan-detail-panel">

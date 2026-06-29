@@ -6152,6 +6152,10 @@ body {
   padding: 12px;
 }
 
+.custom-plan-category-row {
+  display: contents;
+}
+
 .custom-plan-category-group {
   display: grid;
   gap: 8px;
@@ -6784,22 +6788,41 @@ body {
   }
 
   .custom-plan-category-rail {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
     padding: 8px;
   }
 
-  .custom-plan-category-group {
+  .custom-plan-category-row {
+    display: flex;
+    gap: 8px;
     min-width: 0;
+  }
+
+  .custom-plan-category-group {
+    flex: 0 0 58px;
+    min-width: 0;
+    transition: flex-basis 180ms ease;
+  }
+
+  .custom-plan-category-group:has(> button.is-active) {
+    flex: 1 1 calc(100% - 132px);
   }
 
   .custom-plan-category-rail button {
     position: relative;
     grid-template-columns: 1fr;
     justify-items: center;
+    width: 100%;
     min-height: 64px;
     padding: 10px 8px;
     text-align: center;
+  }
+
+  .custom-plan-category-rail button.is-active {
+    grid-template-columns: 22px minmax(0, 1fr);
+    justify-items: start;
+    gap: 8px;
+    text-align: left;
   }
 
   .custom-plan-category-rail button span {
@@ -6809,9 +6832,9 @@ body {
   .custom-plan-category-rail button.is-active span {
     display: block;
     max-width: 100%;
-    font-size: 0.76rem;
+    font-size: 0.74rem;
     line-height: 1.25;
-    white-space: normal;
+    white-space: nowrap;
   }
 
   .custom-plan-category-rail strong {
@@ -8111,9 +8134,6 @@ body {
 
 .home-intro--video {
   background-color: #02040a;
-  background-image: url("/images/intro/racetrack-scene.png");
-  background-position: center;
-  background-size: cover;
   animation: homeIntroVideoExit 5.4s ease forwards;
 }
 
